@@ -46,7 +46,7 @@ class TestIsPalindrome:
     def test_substring(self):
         s = "xabaxy"
         assert tp.is_palindrome(s, 1, 3) is True   # "aba"
-        assert tp.is_palindrome(s, 0, 4) is False   # "xabax" → hmm = True
+        assert tp.is_palindrome(s, 0, 4) is True   # "xabax" is a palindrome
         assert tp.is_palindrome(s, 0, 5) is False
 
 

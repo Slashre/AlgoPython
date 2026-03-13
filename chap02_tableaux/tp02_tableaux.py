@@ -11,7 +11,12 @@ def rotate(arr: list, k: int) -> None:
     Astuce : triple reverse.
     TODO
     """
-    raise NotImplementedError
+    k = k % len(arr)
+    arr.reverse()
+    arr[:k] = reversed(arr[:k])
+    arr[k:] = reversed(arr[k:])
+    return arr
+
 
 
 def remove_duplicates(arr: list) -> int:
@@ -21,7 +26,14 @@ def remove_duplicates(arr: list) -> int:
     Complexité attendue : O(n).
     TODO
     """
-    raise NotImplementedError
+    if not arr:
+        return 0
+    write_index = 1
+    for i in range(1, len(arr)):
+        if arr[i] != arr[i - 1]:
+            arr[write_index] = arr[i]
+            write_index += 1
+    return write_index
 
 
 def merge_arrays(a: list, b: list) -> list:
@@ -30,7 +42,18 @@ def merge_arrays(a: list, b: list) -> list:
     Complexité attendue : O(n+m).
     TODO
     """
-    raise NotImplementedError
+    merged = []
+    i, j = 0, 0
+    while i < len(a) and j < len(b):
+        if a[i] < b[j]:
+            merged.append(a[i])
+            i += 1
+        else:
+            merged.append(b[j])
+            j += 1
+    merged.extend(a[i:])
+    merged.extend(b[j:])
+    return merged
 
 
 def binary_search(arr: list, target: int) -> int:
@@ -40,7 +63,16 @@ def binary_search(arr: list, target: int) -> int:
     Complexité attendue : O(log n).
     TODO
     """
-    raise NotImplementedError
+    low, high = 0, len(arr) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
 
 
 def lower_bound(arr: list, target: int) -> int:
@@ -50,7 +82,14 @@ def lower_bound(arr: list, target: int) -> int:
     Complexité attendue : O(log n).
     TODO
     """
-    raise NotImplementedError
+    low, high = 0, len(arr)
+    while low < high:
+        mid = (low + high) // 2
+        if arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid
+    return low
 
 
 def upper_bound(arr: list, target: int) -> int:
@@ -60,7 +99,14 @@ def upper_bound(arr: list, target: int) -> int:
     Complexité attendue : O(log n).
     TODO
     """
-    raise NotImplementedError
+    low, high = 0, len(arr)
+    while low < high:
+        mid = (low + high) // 2
+        if arr[mid] <= target:
+            low = mid + 1
+        else:
+            high = mid
+    return low
 
 
 def transpose(m: list) -> None:
@@ -69,8 +115,10 @@ def transpose(m: list) -> None:
     Complexité attendue : O(n²).
     TODO : échanger m[i][j] et m[j][i] pour j > i
     """
-    raise NotImplementedError
-
+    for i in range(len(m)):
+        for j in range(i + 1, len(m)):
+            m[i][j], m[j][i] = m[j][i], m[i][j]
+    return m
 
 def rotate_90(m: list) -> None:
     """
@@ -78,7 +126,10 @@ def rotate_90(m: list) -> None:
     Étapes : transposer, puis inverser chaque ligne.
     TODO
     """
-    raise NotImplementedError
+    transpose(m)
+    for row in m:
+        row.reverse()
+    return m
 
 
 def max_subarray(arr: list) -> int:
@@ -87,4 +138,9 @@ def max_subarray(arr: list) -> int:
     Complexité attendue : O(n).
     TODO : cur = max(arr[i], cur + arr[i]) ; best = max(best, cur)
     """
-    raise NotImplementedError
+    best = float('-inf')
+    cur = 0
+    for x in arr:
+        cur = max(x, cur + x)
+        best = max(best, cur)
+    return best

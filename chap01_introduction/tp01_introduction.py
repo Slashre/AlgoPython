@@ -10,7 +10,10 @@ import random
 
 def func_a(n: int) -> int:
     """
-    Complexité : TODO (justifiez en commentaire)
+    Complexité : O(n²)
+    Justification : Deux boucles imbriquées où la boucle interne dépend de i.
+    Pour chaque i de 0 à n-1, la boucle j va de i à n-1, soit n-i itérations.
+    Nombre total d'opérations : sum_{i=0}^{n-1} (n-i) = n(n+1)/2, donc O(n²).
     """
     s = 0
     for i in range(n):
@@ -21,7 +24,11 @@ def func_a(n: int) -> int:
 
 def func_b(n: int) -> int:
     """
-    Complexité : TODO (justifiez en commentaire)
+    Complexité : O(log n)
+    Justification : La boucle double i à chaque itération (i *= 2) jusqu'à ce que i >= n.
+    Le nombre d'itérations est le nombre de fois qu'on peut multiplier par 2 pour atteindre n,
+    ce qui est approximativement log2(n), donc O(log n).
+    BigO : O(log n)
     """
     c, i = 0, 1
     while i < n:
@@ -38,7 +45,17 @@ def find_pair_naive(arr: list, target: int) -> bool:
     Complexité attendue : O(n²)
     TODO: deux boucles imbriquées
     """
-    raise NotImplementedError
+    Found =False
+    for i in range(len(arr)):
+        for j in range(i + 1, len(arr)):
+            if arr[i] + arr[j] == target:
+                Found = True
+                return Found
+    if not Found:
+        return Found
+
+
+   
 
 
 def find_pair_fast(arr: list, target: int) -> bool:
@@ -47,7 +64,12 @@ def find_pair_fast(arr: list, target: int) -> bool:
     Complexité attendue : O(n)
     TODO: une passe avec un set — pour chaque x, chercher (target-x)
     """
-    raise NotImplementedError
+    seen = set()
+    for x in arr:
+        if (target - x) in seen:
+            return True
+        seen.add(x)
+    return False
 
 
 # ── Exercice 3 ────────────────────────────────────────────────────────────────
