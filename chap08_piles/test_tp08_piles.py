@@ -61,7 +61,8 @@ class TestIsBalanced:
 class TestEvalRPN:
     def test_basic(self):
         assert eval_rpn(["3","4","+","2","*"]) == 14
-        assert eval_rpn(["5","1","2","+","4","*","+"]) == 21
+        #assert eval_rpn(["5","1","2","+","4","*","+"]) == 21
+        assert eval_rpn(["5","1","2","+","4","*","+"]) == 17
 
     def test_single_number(self):
         assert eval_rpn(["42"]) == 42

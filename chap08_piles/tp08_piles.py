@@ -9,18 +9,22 @@ class Stack:
 
     def push(self, val) -> None:
         """Empile val — O(1). TODO"""
-        raise NotImplementedError
+        self._data.append(val)
 
     def pop(self):
         """Dépile et retourne le sommet — O(1). Lève IndexError si vide. TODO"""
-        raise NotImplementedError
+        if not self._data:
+            raise IndexError("pop from empty stack")
+        return self._data.pop()
 
     def peek(self):
         """Retourne le sommet sans dépiler — O(1). Lève IndexError si vide. TODO"""
-        raise NotImplementedError
+        if not self._data:
+            raise IndexError("peek into empty stack")
+        return self._data[-1]
 
     def is_empty(self) -> bool:
-        raise NotImplementedError
+        return len(self._data) == 0
 
     def __len__(self) -> int:
         return len(self._data)
@@ -31,7 +35,15 @@ def is_balanced(expr: str) -> bool:
     Vérifie que les parenthèses/accolades/crochets sont équilibrés — O(n).
     TODO
     """
-    raise NotImplementedError
+    s = Stack()
+    pairs = {')': '(', ']': '[', '}': '{'}
+    for char in expr:
+        if char in '([{':
+            s.push(char)
+        elif char in ')]}' :
+            if s.is_empty() or s.pop() != pairs[char]:
+                return False
+    return s.is_empty()
 
 
 def eval_rpn(tokens: list[str]) -> int:
@@ -40,7 +52,24 @@ def eval_rpn(tokens: list[str]) -> int:
     Opérateurs supportés : +, -, *, /  (division entière tronquée vers 0).
     TODO
     """
-    raise NotImplementedError
+    s = Stack()
+    operators = {'+', '-', '*', '/'}
+    for token in tokens:
+        if token in operators:
+            b = s.pop()
+            a = s.pop()
+            if token == '+':
+                s.push(a + b)
+            elif token == '-':
+                s.push(a - b)
+            elif token == '*':
+                s.push(a * b)
+            elif token == '/':
+                # Division entière tronquée vers 0
+                s.push(int(a / b))
+        else:
+            s.push(int(token))
+    return s.pop()
 
 
 class MinStack:
@@ -52,19 +81,24 @@ class MinStack:
 
     def push(self, val: int) -> None:
         """TODO"""
-        raise NotImplementedError
+        self._stack.append(val)
+        if not self._min_stack:
+            self._min_stack.append(val)
+        else:
+            self._min_stack.append(min(val, self._min_stack[-1]))
 
     def pop(self) -> int:
         """TODO"""
-        raise NotImplementedError
+        self._min_stack.pop()
+        return self._stack.pop()
 
     def top(self) -> int:
         """TODO"""
-        raise NotImplementedError
+        return self._stack[-1]
 
     def get_min(self) -> int:
         """Retourne le minimum actuel en O(1). TODO"""
-        raise NotImplementedError
+        return self._min_stack[-1]
 
 
 def sort_stack(s: Stack) -> None:
@@ -73,4 +107,16 @@ def sort_stack(s: Stack) -> None:
     Algorithme d'insertion — O(n²).
     TODO
     """
-    raise NotImplementedError
+    aux = Stack()
+    
+    while not s.is_empty():
+        temp = s.pop()
+        # Déplacer les éléments de aux qui sont > temp vers s
+        while not aux.is_empty() and aux.peek() > temp:
+            s.push(aux.pop())
+        # Insérer temp dans aux
+        aux.push(temp)
+    
+    # Copier le résultat de aux vers s
+    while not aux.is_empty():
+        s.push(aux.pop())
